@@ -30,4 +30,20 @@ function onOpen() {
     .addSeparator()
     .addItem('📏 셀 높이 자동 조절', 'autoResizeRowsHaengbal')
     .addToUi();
+
+  // 가통문 작성 메뉴
+  ui.createMenu('📜 가통문 작성')
+    .addSubMenu(ui.createMenu('☀️ 여름방학')
+      .addItem('✨ 전체 작성 (기본 1000Byte)', 'generateCorrespondenceSummer')
+      .addItem('✍️ 선택한 행만 작성', 'generateCorrespondenceSummerSelected')
+      .addSeparator()
+      .addItem('📏 전체 작성 (글자수 지정)', 'generateCorrespondenceSummerCustom')
+      .addItem('📏 선택 행 작성 (글자수 지정)', 'generateCorrespondenceSummerCustomSelected'))
+    .addSubMenu(ui.createMenu('❄️ 겨울방학')
+      .addItem('✨ 전체 작성 (기본 1000Byte)', 'generateCorrespondenceWinter')
+      .addItem('✍️ 선택한 행만 작성', 'generateCorrespondenceWinterSelected')
+      .addSeparator()
+      .addItem('📏 전체 작성 (글자수 지정)', 'generateCorrespondenceWinterCustom')
+      .addItem('📏 선택 행 작성 (글자수 지정)', 'generateCorrespondenceWinterCustomSelected'))
+    .addToUi();
 }

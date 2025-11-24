@@ -180,6 +180,55 @@ const SETUK_PROMPT_TEMPLATE = COMMON_HEADER_PROMPT + `
 9. 세특 내용만 출력하세요. 다른 설명이나 주석은 포함하지 마세요
 `;
 
+// 활동 섞기 함수 (다양성 확보)
+function shuffleActivities(activityDescription) {
+  if (!activityDescription || activityDescription.trim() === '') {
+    return activityDescription;
+  }
+  
+  // 활동을 구분하는 다양한 패턴 감지
+  // 1. 쉼표로 구분된 경우
+  // 2. 마침표로 구분된 경우
+  // 3. 줄바꿈으로 구분된 경우
+  
+  let activities = [];
+  let delimiter = null;
+  
+  // 쉼표가 2개 이상 있으면 쉼표로 분리
+  if ((activityDescription.match(/,/g) || []).length >= 2) {
+    activities = activityDescription.split(',').map(s => s.trim()).filter(s => s !== '');
+    delimiter = ', ';
+  }
+  // 마침표가 2개 이상 있으면 마침표로 분리
+  else if ((activityDescription.match(/\./g) || []).length >= 2) {
+    activities = activityDescription.split('.').map(s => s.trim()).filter(s => s !== '');
+    delimiter = '. ';
+  }
+  // 줄바꿈이 있으면 줄바꿈으로 분리
+  else if (activityDescription.includes('\n')) {
+    activities = activityDescription.split('\n').map(s => s.trim()).filter(s => s !== '');
+    delimiter = '\n';
+  }
+  
+  // 분리할 수 없으면 원본 반환
+  if (activities.length < 2) {
+    return activityDescription;
+  }
+  
+  // 피셔-예이츠 셔플 알고리즘
+  for (let i = activities.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [activities[i], activities[j]] = [activities[j], activities[i]];
+  }
+  
+  // 마침표로 구분된 경우 마지막에만 마침표 추가
+  if (delimiter === '. ') {
+    return activities.join(delimiter) + '.';
+  }
+  
+  return activities.join(delimiter);
+}
+
 // 4. OpenAI API 호출 함수
 function callOpenAI(activityDescription, rowNumber, lengthInstruction) {
   const apiKey = PropertiesService.getScriptProperties().getProperty('OPENAI_API_KEY');
@@ -187,6 +236,9 @@ function callOpenAI(activityDescription, rowNumber, lengthInstruction) {
   if (!apiKey) {
     throw new Error('API 키가 설정되지 않았습니다.\n관리자에게 문의하세요.');
   }
+  
+  // 활동 순서 섞기 (다양성 확보)
+  const shuffledActivities = shuffleActivities(activityDescription);
   
   // 다양성을 위한 관점 배열
   const perspectives = [
@@ -201,8 +253,8 @@ function callOpenAI(activityDescription, rowNumber, lengthInstruction) {
   // 행 번호를 기반으로 다양한 관점 선택
   const perspective = perspectives[(rowNumber || 0) % perspectives.length];
   
-  // 기본 프롬프트 템플릿 사용
-  let prompt = SETUK_PROMPT_TEMPLATE.replace('{activity_description}', activityDescription);
+  // 기본 프롬프트 템플릿 사용 (섞인 활동 사용)
+  let prompt = SETUK_PROMPT_TEMPLATE.replace('{activity_description}', shuffledActivities);
   
   // 글자 수 지침이 있으면 프롬프트 수정
   if (lengthInstruction) {
