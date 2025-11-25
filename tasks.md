@@ -1,57 +1,202 @@
-# Project Tasks
+# 프로젝트 작업 내역
 
-## Phase 1: Refining Output Logic and Formatting (Completed)
-- [x] Setuk: Implement activity randomization <!-- id: 100 -->
-- [x] Haengbal: Enforce strict formatting (no special chars, final period) <!-- id: 101 -->
-- [x] Gatongmun: Use keywords as themes, remove brackets/signatures <!-- id: 102 -->
+## 1단계: 출력 로직 및 형식 개선 (완료)
+- [x] 세특: 활동 내용 랜덤 배치 구현 <!-- id: 100 -->
+- [x] 행발: 엄격한 형식 적용 (특수문자 제거, 마침표 강제) <!-- id: 101 -->
+- [x] 가통문: 키워드 기반 생성, 대괄호/서명 제거 <!-- id: 102 -->
 
-## Phase 2: Refining Gatongmun Tone and Content (Completed)
-- [x] Enforce formal tone (remove "~구요", "~네요") <!-- id: 200 -->
-- [x] Remove specific year mentions (2024, 2025) <!-- id: 201 -->
-- [x] Fix syntax error in `학기말 가통문 작성기.gs` <!-- id: 202 -->
+## 2단계: 가통문 어조 및 내용 개선 (완료)
+- [x] 격식 있는 어조 강제 ("~구요", "~네요" 제거) <!-- id: 200 -->
+- [x] 특정 연도 언급 제거 (2024, 2025) <!-- id: 201 -->
+- [x] `학기말 가통문 작성기.gs` 구문 오류 수정 <!-- id: 202 -->
 
-## Phase 3: Update Column References and Implement Grade-Based Logic (Completed)
-- [x] Update `학생 세특 작성기.gs` for Grade logic <!-- id: 301 -->
-- [x] Update `학생 행발 작성기.gs` for column shifts <!-- id: 305 -->
-- [x] Update `학기말 가통문 작성기.gs` for column shifts <!-- id: 307 -->
+## 3단계: 열 참조 업데이트 및 등급 기반 로직 구현 (완료)
+- [x] `학생 세특 작성기.gs` 등급 로직 업데이트 <!-- id: 301 -->
+- [x] `학생 행발 작성기.gs` 열 이동 반영 <!-- id: 305 -->
+- [x] `학기말 가통문 작성기.gs` 열 이동 반영 <!-- id: 307 -->
 
-## Phase 4: Incorporate Subject Name and Clean Output (Completed)
-- [x] Update `학생 세특 작성기.gs` with Subject Name and Cleaning <!-- id: 402 -->
-- [x] Update `학생 행발 작성기.gs` for column shifts <!-- id: 406 -->
-- [x] Update `학기말 가통문 작성기.gs` for column shifts <!-- id: 408 -->
+## 4단계: 과목명 통합 및 출력 정리 (완료)
+- [x] `학생 세특 작성기.gs` 과목명 및 정리 기능 추가 <!-- id: 402 -->
+- [x] `학생 행발 작성기.gs` 열 이동 반영 <!-- id: 406 -->
+- [x] `학기말 가통문 작성기.gs` 열 이동 반영 <!-- id: 408 -->
 
-## Phase 5: Further Refinement - Anonymize Subject, Strict Output, and Spacing
-- [x] Plan and Document Changes <!-- id: 500 -->
-- [x] Update `학생 세특 작성기.gs` <!-- id: 501 -->
-    - [x] Modify prompt to forbid explicit subject name mentions <!-- id: 502 -->
-    - [x] Reinforce strict output cleaning (no extra text) <!-- id: 503 -->
-    - [x] Enforce spacing rule: Period + Space (except end of text) <!-- id: 504 -->
-- [x] Update `학생 행발 작성기.gs` <!-- id: 505 -->
-    - [x] Enforce spacing rule: Period + Space (except end of text) <!-- id: 506 -->
-- [x] Update `학기말 가통문 작성기.gs` <!-- id: 507 -->
-    - [x] Enforce spacing rule: Period + Space (except end of text) <!-- id: 508 -->
-- [x] Verification <!-- id: 509 -->
+## 5단계: 추가 개선 - 과목명 익명화, 엄격한 출력, 띄어쓰기 (완료)
+- [x] 변경 사항 계획 및 문서화 <!-- id: 500 -->
+- [x] `학생 세특 작성기.gs` 업데이트 <!-- id: 501 -->
+    - [x] 과목명 명시 금지 프롬프트 수정 <!-- id: 502 -->
+    - [x] 엄격한 출력 정리 강화 (불필요한 텍스트 제거) <!-- id: 503 -->
+    - [x] 띄어쓰기 규칙 강제: 마침표 + 공백 (텍스트 끝 제외) <!-- id: 504 -->
+- [x] `학생 행발 작성기.gs` 업데이트 <!-- id: 505 -->
+    - [x] 띄어쓰기 규칙 강제: 마침표 + 공백 (텍스트 끝 제외) <!-- id: 506 -->
+- [x] `학기말 가통문 작성기.gs` 업데이트 <!-- id: 507 -->
+    - [x] 띄어쓰기 규칙 강제: 마침표 + 공백 (텍스트 끝 제외) <!-- id: 508 -->
+- [x] 검증 완료 <!-- id: 509 -->
 
-## Phase 6: Content Level and Convergence Control
-- [x] Plan and Document Changes <!-- id: 600 -->
-- [x] Update `학생 세특 작성기.gs` <!-- id: 601 -->
-    - [x] Lower content level (High School appropriate, no academic jargon) <!-- id: 602 -->
-    - [x] Restrict Convergence/Fusion (Only if explicitly mentioned) <!-- id: 603 -->
-- [x] Verification <!-- id: 604 -->
+## 6단계: 내용 수준 및 융합 제어 (완료)
+- [x] 변경 사항 계획 및 문서화 <!-- id: 600 -->
+- [x] `학생 세특 작성기.gs` 업데이트 <!-- id: 601 -->
+    - [x] 내용 수준 낮춤 (고등학생 수준에 맞게, 학술 용어 제거) <!-- id: 602 -->
+    - [x] 융합 제한 (명시적으로 언급된 경우만) <!-- id: 603 -->
+- [x] 검증 완료 <!-- id: 604 -->
 
-## Phase 7: Gatongmun Output Cleaning
-- [x] Plan and Document Changes <!-- id: 700 -->
-- [x] Update `학기말 가통문 작성기.gs` <!-- id: 701 -->
-    - [x] Modify prompt to forbid internal logic descriptions <!-- id: 702 -->
-    - [x] Add regex to remove "Keyword order change", "Diverse expressions", etc. <!-- id: 703 -->
-- [x] Verification <!-- id: 704 -->
+## 7단계: 가통문 출력 정리 (완료)
+- [x] 변경 사항 계획 및 문서화 <!-- id: 700 -->
+- [x] `학기말 가통문 작성기.gs` 업데이트 <!-- id: 701 -->
+    - [x] 내부 로직 설명 금지 프롬프트 수정 <!-- id: 702 -->
+    - [x] "키워드 순서 변경", "다양한 표현" 등 제거 정규식 추가 <!-- id: 703 -->
+- [x] 검증 완료 <!-- id: 704 -->
 
-## Phase 8: Final Cleaning and Punctuation
-- [x] Plan and Document Changes <!-- id: 800 -->
-- [x] Update `학기말 가통문 작성기.gs` <!-- id: 801 -->
-    - [x] Remove "Input Keywords" and Omit Subjects <!-- id: 802 -->
-    - [x] Enforce strict punctuation (Period + Space) <!-- id: 803 -->
-    - [x] Enforce strict length (~1000 bytes) <!-- id: 807 -->
-- [x] Update `학생 세특 작성기.gs` & `학생 행발 작성기.gs` <!-- id: 804 -->
-    - [x] Reinforce strict punctuation (Period + Space) <!-- id: 805 -->
-- [x] Verification <!-- id: 806 -->
+## 8단계: 최종 정리 및 문장부호 (완료)
+- [x] 변경 사항 계획 및 문서화 <!-- id: 800 -->
+- [x] `학기말 가통문 작성기.gs` 업데이트 <!-- id: 801 -->
+    - [x] "입력 키워드" 제거 및 주어 생략 <!-- id: 802 -->
+    - [x] 엄격한 문장부호 강제 (마침표 + 공백) <!-- id: 803 -->
+    - [x] 엄격한 길이 제한 (~1000바이트) <!-- id: 807 -->
+- [x] `학생 세특 작성기.gs` & `학생 행발 작성기.gs` 업데이트 <!-- id: 804 -->
+    - [x] 엄격한 문장부호 강화 (마침표 + 공백) <!-- id: 805 -->
+- [x] 검증 완료 <!-- id: 806 -->
+
+## 9단계: Gemini API 마이그레이션 (완료)
+- [x] API 마이그레이션 계획 <!-- id: 900 -->
+- [x] Upstage Solar API → Google Gemini API 전환 <!-- id: 901 -->
+    - [x] API 엔드포인트를 Gemini Native API로 변경 <!-- id: 902 -->
+    - [x] 모델을 solar-mini에서 gemini-2.0-flash-exp로 변경 <!-- id: 903 -->
+    - [x] API 키를 UPSTAGE_API_KEY에서 GEMINI_API_KEY로 변경 <!-- id: 904 -->
+    - [x] API 응답 구조 수정 (OpenAI 호환 → Gemini 네이티브) <!-- id: 905 -->
+- [x] 모든 .gs 파일의 구문 오류 수정 <!-- id: 906 -->
+    - [x] `학생 세특 작성기.gs` 손상된 프롬프트 및 함수 수정 <!-- id: 907 -->
+    - [x] `학생 행발 작성기.gs` 손상된 프롬프트 및 함수 수정 <!-- id: 908 -->
+    - [x] `학기말 가통문 작성기.gs` 누락된 함수 추가 <!-- id: 909 -->
+- [x] 누락된 글자수 지정 함수 추가 <!-- id: 910 -->
+    - [x] `generateSetukCustomLengthForAll/ForSelected` 추가 <!-- id: 911 -->
+    - [x] `generateHaengbalCustomLengthForAll/ForSelected` 추가 <!-- id: 912 -->
+    - [x] `generateCorrespondence*Custom*` 함수들 추가 <!-- id: 913 -->
+- [x] 특수문자 제거 기능 추가 <!-- id: 914 -->
+    - [x] 모든 출력에서 특수 따옴표 ('', "") 제거 <!-- id: 915 -->
+- [x] 검증 완료 <!-- id: 916 -->
+
+## 10단계: 동아리 특기사항 기능 추가 (완료)
+- [x] 동아리 특기사항 기능 계획 <!-- id: 1000 -->
+- [x] `동아리 특기사항.gs` 파일 생성 <!-- id: 1001 -->
+    - [x] 동아리 활동 기록 생성 구현 (I→J 열) <!-- id: 1002 -->
+    - [x] 동아리 활동용 프롬프트 템플릿 추가 <!-- id: 1003 -->
+    - [x] 다양한 관점을 통한 다양성 확보 (섞기 제거) <!-- id: 1004 -->
+    - [x] 글자수 지정 함수 추가 <!-- id: 1005 -->
+    - [x] 자동 서식 적용 (가운데 정렬, 높이 자동 조절) <!-- id: 1006 -->
+- [x] 기존 기능의 열 위치 업데이트 <!-- id: 1007 -->
+    - [x] `학생 행발 작성기.gs` 업데이트 (I,J → K,L) <!-- id: 1008 -->
+    - [x] `학기말 가통문 작성기.gs` 업데이트 (K,L → M,N) <!-- id: 1009 -->
+- [x] `메뉴설정.gs` 업데이트 <!-- id: 1010 -->
+    - [x] "🎭 동아리 특기사항" 메뉴 추가 <!-- id: 1011 -->
+- [x] 검증 완료 <!-- id: 1012 -->
+
+## 11단계: 동아리 및 행발 개선 (완료)
+- [x] 동아리 특기사항 개선 계획 <!-- id: 1100 -->
+- [x] `동아리 특기사항.gs` 업데이트 <!-- id: 1101 -->
+    - [x] 동아리명 언급 금지 추가 ("~동아리에서" 등 제거) <!-- id: 1102 -->
+    - [x] 바로 활동 내용부터 시작하도록 프롬프트 수정 <!-- id: 1103 -->
+- [x] `학생 행발 작성기.gs` 업데이트 <!-- id: 1104 -->
+    - [x] 긍정적 재구성 가이드라인 추가 <!-- id: 1105 -->
+    - [x] 부정적 특성을 장점으로 전환하는 예시 추가 <!-- id: 1106 -->
+      - 내성적 → 신중함, 사려 깊음, 차분함
+      - 소극적 → 신중하게 접근함, 관찰력 뛰어남
+      - 느림 → 꼼꼼함, 세심함, 정확성 추구
+      - 고집이 셈 → 소신 있음, 주관 뚜렷함
+      - 산만함 → 다양한 관심사, 호기심 많음
+      - 말이 적음 → 경청 잘함, 신중하게 발언함
+    - [x] 부정적 표현 금지 ("~하지만", "~에도 불구하고", "부족하다" 등) <!-- id: 1107 -->
+- [x] 검증 완료 <!-- id: 1108 -->
+
+## 현재 프로젝트 상태
+
+### 파일 구조
+```
+seteuk_haengbal/
+├── 학생 세특 작성기.gs          # E,F,G → H (과목별 세부능력 및 특기사항)
+├── 동아리 특기사항.gs           # I → J (동아리 활동 특기사항)
+├── 학생 행발 작성기.gs          # K → L (행동특성 및 종합의견)
+├── 학기말 가통문 작성기.gs      # M → N (학부모 가정통신문)
+└── 메뉴설정.gs                  # 메뉴 설정
+```
+
+### 열 구성
+- **E열**: 과목명 (세특용)
+- **F열**: 활동 내용 (세특용)
+- **G열**: 등급 (세특용: A/B/C)
+- **H열**: 세특 결과 (생성된 세특)
+- **I열**: 동아리 활동 내용
+- **J열**: 동아리 특기사항 결과 (생성된 동아리 특기사항)
+- **K열**: 행동 특성 (행발용)
+- **L열**: 행발 결과 (생성된 행발)
+- **M열**: 키워드 (가통문용)
+- **N열**: 가통문 결과 (생성된 가통문)
+
+### API 설정
+- **API 제공자**: Google Gemini API
+- **모델**: gemini-2.0-flash-exp
+- **엔드포인트**: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent
+- **API 키**: GEMINI_API_KEY (스크립트 속성에 저장)
+- **설정 방법**: https://aistudio.google.com 에서 API 키 발급
+
+### 주요 기능
+
+#### 1. 학생 세특 작성기 (세부능력 및 특기사항)
+- 등급별 차등 적용 (A: 490-500자, B: 400-450자, C: 300-350자)
+- 활동 내용 랜덤 배치로 다양성 확보
+- 과목명 컨텍스트 제공 (명시적 언급 금지)
+- 사실성 강화 (입력된 내용 기반만)
+- 글자수 지정 옵션
+
+#### 2. 동아리 특기사항
+- 활동 순서 보존 (단계별 활동이므로 섞지 않음)
+- 동아리명 언급 금지 (바로 활동 내용부터 시작)
+- 8가지 다양한 관점을 통한 다양성 확보
+  1. 적극성과 참여도 중심
+  2. 협업 능력과 소통 능력 중심
+  3. 리더십과 책임감 중심
+  4. 창의성과 문제 해결 능력 중심
+  5. 성실성과 지속적인 노력 중심
+  6. 성장 과정과 태도 변화 중심
+  7. 진로 연계성과 전문성 발전 중심
+  8. 자기주도성과 탐구 능력 중심
+- 과정 중심 서술
+- 성장과 성과 강조
+- 글자수 지정 옵션 (기본: 1000바이트)
+- 소논문 기재 금지
+
+#### 3. 학생 행발 작성기 (행동특성 및 종합의견)
+- 키워드 랜덤 배치로 다양성 확보
+- 인성 중심 (배려, 리더십, 협력)
+- **긍정적 재구성**: 부정적 특성을 장점으로 전환
+  - 내성적 → 신중함, 사려 깊음, 차분함
+  - 소극적 → 신중하게 접근함, 관찰력 뛰어남
+  - 느림 → 꼼꼼함, 세심함, 정확성 추구
+  - 고집이 셈 → 소신 있음, 주관 뚜렷함
+  - 산만함 → 다양한 관심사, 호기심 많음
+  - 말이 적음 → 경청 잘함, 신중하게 발언함
+- 부정적 표현 금지 ("~하지만", "부족하다" 등)
+- 성장 중심 서술
+- 글자수 지정 옵션 (기본: 1500바이트)
+
+#### 4. 학기말 가통문 작성기 (가정통신문)
+- 여름방학/겨울방학 버전
+- 키워드 기반 생성
+- 격식 있는 어조 강제
+- 글자수 지정 옵션 (기본: 1000바이트)
+
+### 품질 관리
+- ✅ 특수문자 제거 (따옴표, 대괄호, 별표 등)
+- ✅ 엄격한 문장부호 (마침표 + 공백)
+- ✅ 환각 방지 (사실 기반만)
+- ✅ 주어 생략
+- ✅ 적절한 난이도 수준
+- ✅ 단일 문단 형식
+- ✅ 자동 서식 및 정렬
+- ✅ 긍정적 재구성 (행발)
+- ✅ 동아리명 언급 금지 (동아리)
+
+### 다음 단계
+- [ ] 사용자 테스트 및 피드백 수집
+- [ ] 성능 모니터링
+- [ ] 결과 기반 프롬프트 최적화
+- [ ] 추가 기능 요청 반영
