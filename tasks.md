@@ -1,42 +1,33 @@
-# 프로젝트 작업 목록 (Tasks)
+# Project Tasks
 
-이 파일은 `seteuk_haengbal` 프로젝트의 작업 진행 상황을 관리하기 위한 문서입니다.
-향후 모든 작업은 이 파일을 기준으로 진행하며, 작업 완료 후 상태를 업데이트합니다.
+## Phase 1: Refining Output Logic and Formatting (Completed)
+- [x] Setuk: Implement activity randomization <!-- id: 100 -->
+- [x] Haengbal: Enforce strict formatting (no special chars, final period) <!-- id: 101 -->
+- [x] Gatongmun: Use keywords as themes, remove brackets/signatures <!-- id: 102 -->
 
-## ✅ 완료된 작업 (Completed)
-- [x] **초기 코드 분석**: 기존 앱스크립트 파일(`메뉴설정.gs`, `학생 세특 작성기.gs`, `학생 행발 작성기.gs`) 구조 및 기능 파악 완료
-- [x] **작업 목록(Tasks.md) 생성**: 프로젝트 관리 및 향후 계획 수립을 위한 문서 생성
-- [x] **자동 서식 적용 기능 구현**: 세특/행발 작성 후 행 높이 자동 조절 및 특정 열(A-D, E, G, I) 가운데 정렬 기능 추가
-- [x] **서식 개선**: F열(세특)과 H열(행발) 세로 가운데 정렬 적용
-- [x] **구문 오류 수정**: `학생 행발 작성기.gs` 및 `학생 세특 작성기.gs` 내 중복 코드 및 잘못된 프롬프트 텍스트 제거
-- [x] **글자 수(바이트) 조절 기능 추가**: 세특/행발 작성 시 사용자로부터 바이트 수를 입력받아 길이를 조절하는 메뉴 및 로직 구현
-- [x] **가통문 작성 스크립트 구현**: `학기말 가통문 작성기.gs` 생성 (여름/겨울 모드, 키워드 기반 생성)
-- [x] **메뉴 연동**: `메뉴설정.gs`에 가통문 작성 메뉴 추가
-- [x] **다양성 확보 로직**: 키워드 섞기 및 프롬프트 다양화 적용
-- [x] **글자 수 조절**: 기본 1000byte 및 사용자 지정 기능 구현
-- [x] **세특 활동 순서 랜덤화**: 입력된 활동들의 순서를 섞어서 생성하여 다양성 확보 (쉼표, 마침표, 줄바꿈 구분 지원)
-- [x] **가통문 선택한 행만 작성 메뉴 추가**: 가통문 작성기에 선택한 행만 작성하는 메뉴 및 기능 추가
-- [x] **가통문 팝업 메시지 개선**: 세특/행발과 동일하게 설명이 포함된 팝업 메시지로 변경
-- [x] **가통문 서명 제거**: 가통문 마지막에 "담임교사 드림" 등의 서명이 포함되지 않도록 프롬프트 수정
-- [x] **가통문 메뉴 구조 개선**: 여름방학/겨울방학 서브메뉴로 구조화하여 세특/행발과 일관성 있는 메뉴 구조 적용
+## Phase 2: Refining Gatongmun Tone and Content (Completed)
+- [x] Enforce formal tone (remove "~구요", "~네요") <!-- id: 200 -->
+- [x] Remove specific year mentions (2024, 2025) <!-- id: 201 -->
+- [x] Fix syntax error in `학기말 가통문 작성기.gs` <!-- id: 202 -->
 
-## 🚀 예정된 작업 (Backlog)
+## Phase 3: Update Column References and Implement Grade-Based Logic (Completed)
+- [x] Update `학생 세특 작성기.gs` for Grade logic <!-- id: 301 -->
+- [x] Update `학생 행발 작성기.gs` for column shifts <!-- id: 305 -->
+- [x] Update `학기말 가통문 작성기.gs` for column shifts <!-- id: 307 -->
 
-### 1. 코드 리팩토링 (Refactoring)
-코드의 중복을 제거하고 유지보수성을 높이기 위한 작업입니다.
-- [ ] **공통 유틸리티 분리**: `학생 세특 작성기.gs`와 `학생 행발 작성기.gs`에 중복된 `callOpenAI` 함수와 API 호출 로직을 별도 파일(`Utilities.gs` 또는 `APIService.gs`)로 분리하여 중앙 관리
-- [ ] **상수 및 설정 분리**: 프롬프트 템플릿, API 모델명, 타임아웃 설정 등 하드코딩된 값들을 `Constants.gs` 또는 `Config.gs`로 분리
+## Phase 4: Incorporate Subject Name and Clean Output (Completed)
+- [x] Update `학생 세특 작성기.gs` with Subject Name and Cleaning <!-- id: 402 -->
+- [x] Update `학생 행발 작성기.gs` for column shifts <!-- id: 406 -->
+- [x] Update `학기말 가통문 작성기.gs` for column shifts <!-- id: 408 -->
 
-### 3. 기능 개선 (Improvements)
-사용자 경험과 스크립트 안정성을 높이기 위한 작업입니다.
-- [ ] **프롬프트 관리 고도화**: 코드가 아닌 구글 시트 내 별도 시트(예: `설정`)에서 프롬프트를 수정할 수 있도록 기능 개선 (비개발자도 수정 가능하도록)
-- [ ] **에러 핸들링 강화**: API 호출 실패 시 구체적인 원인(토큰 부족, 타임아웃 등)을 사용자에게 더 명확히 알리고, 실패한 행만 재시도하는 기능 추가
-- [ ] **API 키 보안 강화**: 현재 스크립트 속성을 사용 중이나, 입력/삭제 편의성을 위한 UI(사이드바 또는 팝업) 개선
-
-### 4. 기타 (Others)
-- [ ] **모델 선택 옵션**: GPT-3.5, GPT-4o 등 사용할 모델을 메뉴나 설정 시트에서 선택하는 기능
-- [ ] **로그 기록**: 생성된 세특/행발의 이력(생성 일시, 사용 모델, 토큰 수 등)을 별도 로그 시트에 기록
-
-## 📝 메모 (Notes)
-- 현재 `메뉴설정.gs`가 진입점 역할을 하며, 각 기능별 스크립트가 분리되어 있어 구조는 양호함.
-- OpenAI API 호출 시 `Utilities.sleep(1000)`으로 속도 제한을 두고 있음.
+## Phase 5: Further Refinement - Anonymize Subject, Strict Output, and Spacing
+- [x] Plan and Document Changes <!-- id: 500 -->
+- [x] Update `학생 세특 작성기.gs` <!-- id: 501 -->
+    - [x] Modify prompt to forbid explicit subject name mentions <!-- id: 502 -->
+    - [x] Reinforce strict output cleaning (no extra text) <!-- id: 503 -->
+    - [x] Enforce spacing rule: Period + Space (except end of text) <!-- id: 504 -->
+- [x] Update `학생 행발 작성기.gs` <!-- id: 505 -->
+    - [x] Enforce spacing rule: Period + Space (except end of text) <!-- id: 506 -->
+- [x] Update `학기말 가통문 작성기.gs` <!-- id: 507 -->
+    - [x] Enforce spacing rule: Period + Space (except end of text) <!-- id: 508 -->
+- [x] Verification <!-- id: 509 -->

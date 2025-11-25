@@ -3,10 +3,10 @@
 // ====================================
 
 // 사용 방법:
-// 1. 스크립트 속성에 OPENAI_API_KEY를 미리 설정하세요
-// 2. G열에 관찰 키워드 입력 (성격, 학습 태도, 행동 특성)
+// 1. 스크립트 속성에 UPSTAGE_API_KEY를 미리 설정하세요
+// 2. I열에 관찰 키워드 입력 (성격, 학습 태도, 행동 특성)
 // 3. 메뉴에서 "행발 작성 시작하기"를 클릭하세요
-// 4. H열에 자동으로 행발이 생성됩니다 (300자 이상, 명사형 종결)
+// 4. J열에 자동으로 행발이 생성됩니다 (300자 이상, 명사형 종결)
 
 // 주의: onOpen() 함수는 "메뉴설정.gs" 파일에만 있어야 합니다.
 // 이 파일에는 onOpen()이 없습니다.
@@ -95,15 +95,18 @@ const HAENGBAL_PROMPT = `
 4. 명사형 종결어미 "~함", "~임", "~음"을 사용하세요
 5. 주어는 절대 사용하지 마세요
 6. 최종 결과는 반드시 300자 이상이어야 합니다
-7. 행발 내용만 출력하세요. 다른 설명이나 주석은 포함하지 마세요
+7. **줄바꿈 없이 하나의 문단으로 작성하세요.** (중간에 줄바꿈 절대 금지)
+8. **마지막에 글자 수(예: 350자)를 표기하지 마세요.**
+9. 행발 내용만 출력하세요. 다른 설명이나 주석은 포함하지 마세요
 `;
 
-// 2. OpenAI API 호출 함수
+// 2. Solar Pro 2 API 호출 함수 (Upstage)
 function callOpenAIHaengbal(behaviorDescription, rowNumber, lengthInstruction) {
-  const apiKey = PropertiesService.getScriptProperties().getProperty('OPENAI_API_KEY');
+  // Upstage API Key 사용
+  const apiKey = PropertiesService.getScriptProperties().getProperty('UPSTAGE_API_KEY');
   
   if (!apiKey) {
-    throw new Error('API 키가 설정되지 않았습니다.\n관리자에게 문의하세요.');
+    throw new Error('API 키가 설정되지 않았습니다.\n스크립트 속성에서 UPSTAGE_API_KEY를 설정해주세요.');
   }
   
   // 다양성을 위한 관점 배열
@@ -132,9 +135,10 @@ function callOpenAIHaengbal(behaviorDescription, rowNumber, lengthInstruction) {
   
   prompt += '\n\n**추가 지시: ' + perspective + ' 서술하되, 매번 다른 표현과 구조를 사용하세요.**';
   
-  const url = 'https://api.openai.com/v1/chat/completions';
+  // Upstage Solar API Endpoint
+  const url = 'https://api.upstage.ai/v1/chat/completions';
   const payload = {
-    model: 'gpt-4o',
+    model: 'solar-pro2',
     messages: [
       {
         role: 'system',
@@ -166,13 +170,36 @@ function callOpenAIHaengbal(behaviorDescription, rowNumber, lengthInstruction) {
     
     if (responseCode !== 200) {
       if (responseData.error) {
-        throw new Error('API 오류: ' + responseData.error.message);
+        throw new Error('Solar API 오류: ' + responseData.error.message);
       } else {
-        throw new Error('API 오류: 응답 코드 ' + responseCode);
+        throw new Error('Solar API 오류: 응답 코드 ' + responseCode);
       }
     }
     
-    return responseData.choices[0].message.content.trim();
+    let content = responseData.choices[0].message.content.trim();
+    
+    // 후처리: 글자 수 표기 제거 (예: (350자), [350자], 350자 등)
+    content = content.replace(/\s*[\(\[]?\d+자[\)\]]?$/g, '');
+    
+    // 후처리: 특수문자 및 마크다운 제거
+    content = content.replace(/[\*#\[\]]/g, ''); // 마크다운 및 대괄호 제거
+    content = content.replace(/^\s*[-•]\s*/gm, ''); // 글머리 기호 제거
+    
+    // 후처리: 줄바꿈 제거 (하나의 문단으로 병합)
+    content = content.replace(/\n+/g, ' ');
+    
+    // 후처리: 마침표 보장 및 공백 강제
+    if (!content.endsWith('.')) {
+      content += '.';
+    }
+    // 1. 모든 마침표 뒤에 공백이 없으면 공백 추가
+    content = content.replace(/\.(?!\s|$)/g, '. ');
+    // 2. 다중 공백 제거
+    content = content.replace(/\s+/g, ' ');
+    // 3. 마지막 마침표 뒤 공백 제거
+    content = content.trim();
+    
+    return content;
   } catch (error) {
     throw new Error('API 호출 실패: ' + error.message);
   }
@@ -201,8 +228,8 @@ function generateHaengbalForSelectedRows() {
   
   for (let i = 0; i < numRows; i++) {
     const row = startRow + i;
-    const behaviorCell = sheet.getRange(row, 7); // G열
-    const haengbalCell = sheet.getRange(row, 8); // H열
+    const behaviorCell = sheet.getRange(row, 9); // I열 (기존 H열에서 이동)
+    const haengbalCell = sheet.getRange(row, 10); // J열 (기존 I열에서 이동)
     
     const behaviorValue = behaviorCell.getValue();
     
@@ -232,7 +259,7 @@ function generateHaengbalForSelectedRows() {
   ui.alert(`✅ 작성 완료!\n\n성공: ${successCount}명\n실패: ${errorCount}명`);
 }
 
-// 4. G열에 데이터가 있고 H열이 비어있는 모든 행 처리
+// 4. I열에 데이터가 있고 J열이 비어있는 모든 행 처리
 function generateHaengbalForAllEmpty() {
   const sheet = SpreadsheetApp.getActiveSheet();
   const lastRow = sheet.getLastRow();
@@ -245,7 +272,7 @@ function generateHaengbalForAllEmpty() {
   const ui = SpreadsheetApp.getUi();
   const result = ui.alert(
     '행발 작성을 시작합니다',
-    'G열의 관찰 키워드를 바탕으로 행발을 작성합니다.\n(전반적인 성격, 학습 태도, 행동 특성 종합)\n\n계속하시겠습니까?',
+    'I열의 관찰 키워드를 바탕으로 행발을 작성합니다.\n(전반적인 성격, 학습 태도, 행동 특성 종합)\n\n계속하시겠습니까?',
     ui.ButtonSet.YES_NO
   );
   
@@ -253,8 +280,8 @@ function generateHaengbalForAllEmpty() {
     return;
   }
   
-  const behaviorRange = sheet.getRange(2, 7, lastRow - 1, 1); // G2부터
-  const haengbalRange = sheet.getRange(2, 8, lastRow - 1, 1); // H2부터
+  const behaviorRange = sheet.getRange(2, 9, lastRow - 1, 1); // I2부터
+  const haengbalRange = sheet.getRange(2, 10, lastRow - 1, 1); // J2부터
   
   const behaviorValues = behaviorRange.getValues();
   const haengbalValues = haengbalRange.getValues();
@@ -267,11 +294,11 @@ function generateHaengbalForAllEmpty() {
     const behaviorValue = behaviorValues[i][0];
     const haengbalValue = haengbalValues[i][0];
     
-    // G열에 데이터가 있고 H열이 비어있는 경우만 처리
+    // I열에 데이터가 있고 J열이 비어있는 경우만 처리
     if (behaviorValue && behaviorValue.toString().trim() !== '' && 
         (!haengbalValue || haengbalValue.toString().trim() === '')) {
       
-      const haengbalCell = sheet.getRange(row, 8);
+      const haengbalCell = sheet.getRange(row, 10);
       
       try {
         haengbalCell.setValue('작성 중...');
@@ -313,183 +340,22 @@ function promptForByteLimitHaengbal() {
       ui.alert('올바른 숫자를 입력해주세요.');
       return null;
     }
-    
     return bytes;
   }
   return null;
 }
 
-// 6. 글자 수 지정 - 선택한 행 작성
-function generateHaengbalCustomLengthForSelected() {
-  const bytes = promptForByteLimitHaengbal();
-  if (!bytes) return;
-  
-  const charCount = Math.round(bytes / 3);
-  const lengthInstruction = `작성 분량: 약 ${bytes}바이트 (한글 기준 약 ${charCount}자) 내외로 작성하세요.`;
-  
-  const sheet = SpreadsheetApp.getActiveSheet();
-  const range = sheet.getActiveRange();
-  const startRow = range.getRow();
-  const numRows = range.getNumRows();
-  
-  const ui = SpreadsheetApp.getUi();
-  const result = ui.alert(
-    '행발 작성을 시작합니다',
-    `선택한 ${numRows}명의 행발을 작성합니다.\n목표 분량: ${bytes}Byte (약 ${charCount}자)\n계속하시겠습니까?`,
-    ui.ButtonSet.YES_NO
-  );
-  
-  if (result !== ui.Button.YES) {
-    return;
-  }
-  
-  let successCount = 0;
-  let errorCount = 0;
-  
-  for (let i = 0; i < numRows; i++) {
-    const row = startRow + i;
-    const behaviorCell = sheet.getRange(row, 7); // G열
-    const haengbalCell = sheet.getRange(row, 8); // H열
-    
-    const behaviorValue = behaviorCell.getValue();
-    
-    if (!behaviorValue || behaviorValue.toString().trim() === '') {
-      continue;
-    }
-    
-    try {
-      haengbalCell.setValue('작성 중...');
-      SpreadsheetApp.flush();
-      
-      const haengbalContent = callOpenAIHaengbal(behaviorValue.toString(), row, lengthInstruction);
-      haengbalCell.setValue(haengbalContent);
-      
-      applyAutoFormattingHaengbal(sheet, row);
-      
-      successCount++;
-      Utilities.sleep(1000);
-      
-    } catch (error) {
-      haengbalCell.setValue('오류: ' + error.message);
-      errorCount++;
-    }
-  }
-  
-  ui.alert(`✅ 작성 완료!\n\n성공: ${successCount}명\n실패: ${errorCount}명`);
-}
-
-// 7. 글자 수 지정 - 전체 작성
-function generateHaengbalCustomLengthForAll() {
-  const bytes = promptForByteLimitHaengbal();
-  if (!bytes) return;
-  
-  const charCount = Math.round(bytes / 3);
-  const lengthInstruction = `작성 분량: 약 ${bytes}바이트 (한글 기준 약 ${charCount}자) 내외로 작성하세요.`;
-  
-  const sheet = SpreadsheetApp.getActiveSheet();
-  const lastRow = sheet.getLastRow();
-  
-  if (lastRow < 2) {
-    SpreadsheetApp.getUi().alert('처리할 데이터가 없습니다.');
-    return;
-  }
-  
-  const ui = SpreadsheetApp.getUi();
-  const result = ui.alert(
-    '행발 작성을 시작합니다',
-    `G열의 관찰 키워드를 바탕으로 행발을 작성합니다.\n목표 분량: ${bytes}Byte (약 ${charCount}자)\n계속하시겠습니까?`,
-    ui.ButtonSet.YES_NO
-  );
-  
-  if (result !== ui.Button.YES) {
-    return;
-  }
-  
-  const behaviorRange = sheet.getRange(2, 7, lastRow - 1, 1);
-  const haengbalRange = sheet.getRange(2, 8, lastRow - 1, 1);
-  
-  const behaviorValues = behaviorRange.getValues();
-  const haengbalValues = haengbalRange.getValues();
-  
-  let successCount = 0;
-  let errorCount = 0;
-  
-  for (let i = 0; i < behaviorValues.length; i++) {
-    const row = i + 2;
-    const behaviorValue = behaviorValues[i][0];
-    const haengbalValue = haengbalValues[i][0];
-    
-    if (behaviorValue && behaviorValue.toString().trim() !== '' && 
-        (!haengbalValue || haengbalValue.toString().trim() === '')) {
-      
-      const haengbalCell = sheet.getRange(row, 8);
-      
-      try {
-        haengbalCell.setValue('작성 중...');
-        SpreadsheetApp.flush();
-        
-        const haengbalContent = callOpenAIHaengbal(behaviorValue.toString(), row, lengthInstruction);
-        haengbalCell.setValue(haengbalContent);
-        
-        applyAutoFormattingHaengbal(sheet, row);
-        
-        successCount++;
-        Utilities.sleep(1000);
-        
-      } catch (error) {
-        haengbalCell.setValue('오류: ' + error.message);
-        errorCount++;
-      }
-    }
-  }
-  
-  ui.alert(`✅ 작성 완료!\n\n성공: ${successCount}명\n실패: ${errorCount}명`);
-}
-
-// 8. 서식 자동 적용 (행 높이 및 정렬)
-function autoResizeRowsHaengbal() {
-  const sheet = SpreadsheetApp.getActiveSheet();
-  const lastRow = sheet.getLastRow();
-  
-  if (lastRow < 2) {
-    return;
-  }
-  
-  // 전체 행에 대해 서식 적용
-  for (let row = 2; row <= lastRow; row++) {
-    applyAutoFormattingHaengbal(sheet, row);
-  }
-  
-  SpreadsheetApp.getUi().alert('✅ 서식(행 높이, 정렬)이 자동으로 적용되었습니다.');
-}
-
-// 단일 행에 대한 서식 적용 함수
+// 6. 서식 자동 적용 함수
 function applyAutoFormattingHaengbal(sheet, row) {
-  // 1. H열(행발) 자동 줄바꿈 및 세로 가운데 정렬 설정
-  const haengbalCell = sheet.getRange(row, 8);
-  haengbalCell.setWrap(true)
+  // J열 (행발) 자동 줄바꿈 및 세로 가운데 정렬
+  const cell = sheet.getRange(row, 10);
+  cell.setWrap(true)
     .setVerticalAlignment('middle');
   
-  // 2. 행 높이 자동 조절
+  // 행 높이 자동 조절
   sheet.autoResizeRows(row, 1);
   
-  // 3. 특정 열 가운데 정렬 (A~D, E, G, I)
-  // A~D열 (1~4열)
-  sheet.getRange(row, 1, 1, 4)
-    .setHorizontalAlignment('center')
-    .setVerticalAlignment('middle');
-    
-  // E열 (5열)
-  sheet.getRange(row, 5)
-    .setHorizontalAlignment('center')
-    .setVerticalAlignment('middle');
-    
-  // G열 (7열)
-  sheet.getRange(row, 7)
-    .setHorizontalAlignment('center')
-    .setVerticalAlignment('middle');
-    
-  // I열 (9열)
+  // I열 가운데 정렬
   sheet.getRange(row, 9)
     .setHorizontalAlignment('center')
     .setVerticalAlignment('middle');
